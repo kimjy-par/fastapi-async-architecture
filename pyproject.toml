@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "onboarding"
+version = "0.1.0"
+description = "now-onboarding"
+authors = ["kimjy"]
+license = "none"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^2.2.2"
+fastapi = "^0.112.2"
+uvicorn = "^0.30.6"
+sqlalchemy = "^2.0.32"
+dependency-injector = "^4.41.0"
+mariadb = "^1.1.10"
+asyncmy = "^0.2.9"
+pymysql = "^1.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
