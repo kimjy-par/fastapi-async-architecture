@@ -2,7 +2,7 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends
 
 from app.services.user_service import UserService
-from app.services.post_service import PostService
+from app.services.post_service import PostService, AsyncPostService
 from app.core.container import Container
 from app.schemas.user_schema import UserResponseSchema
 from app.schemas.post_schema import PostSchema, PostListSchema, UpdatePostSchema, InsertPostSchema
@@ -21,6 +21,7 @@ def get_user_by_id(user_id: int, service: UserService = Depends(Provide[Containe
 @router.get(path="/users/{user_id}/posts", response_model=PostListSchema)
 @inject
 def get_all_post_by_user_id(user_id: int, service: PostService = Depends(Provide[Container.post_service])) -> PostListSchema:
+    print(service)
     return service.get_all_by_user_id(user_id)
 
 @router.post(path="/users/posts")

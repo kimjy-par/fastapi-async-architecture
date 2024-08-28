@@ -1,6 +1,8 @@
-from contextlib import AbstractContextManager
+from contextlib import AbstractContextManager, AbstractAsyncContextManager
 from typing import Callable, List
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 from app.models.post import Post
 from app.models.user import User
@@ -47,3 +49,23 @@ class PostRepository():
 
             session.delete(query)
             session.commit()
+
+
+class AsyncPostRepository():
+    def __init__(self, session_factory: Callable[..., AbstractAsyncContextManager[AsyncSession]]):
+        self.session_factory = session_factory
+
+    async def get_by_id(self, id: int) -> Post:
+        async with self.session_factory() as session:
+            results = await session.execute(select(Post).filter(Post.id == id).limit(1))
+            post = results.scalars().first()
+            
+            return post
+        
+
+    async def create_post_with_user(self, post: Post) -> Post:
+        async with self.session_factory() as session:
+            session.add(post)
+            raise
+            await session.commit()
+            return await session.refresh(post)
