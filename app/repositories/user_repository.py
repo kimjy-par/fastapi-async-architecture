@@ -1,18 +1,10 @@
-from contextlib import AbstractContextManager
+from contextlib import AbstractAsyncContextManager
 from typing import Callable
-from sqlalchemy.orm import Session
-
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.repositories.base_repository import BaseRepository
 from app.models.user import User
 
-class UserRepository():
-    def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]):
+class UserRepository(BaseRepository):
+    def __init__(self, session_factory: Callable[..., AbstractAsyncContextManager[AsyncSession]]):
         self.session_factory = session_factory
-
-    def get_by_id(self, id: int) -> User:
-        with self.session_factory() as session:
-            query = session.query(User).filter(User.id == id).first()
-           
-            if not query:
-                raise 
-
-            return query
+        super().__init__(session_factory, User)
