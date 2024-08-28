@@ -1,7 +1,15 @@
 from datetime import datetime
+from typing import Optional, List, Any
 from pydantic import BaseModel
 
 class BaseInfoModel(BaseModel):
     id: int
     created_at: datetime
     updated_at: datetime
+
+class FindBase(BaseModel):
+    results: List[Any]
+    ordering: Optional[str]
+    page: Optional[int]
+    page_size: Optional[int]
+    total_count: Optional[int]
