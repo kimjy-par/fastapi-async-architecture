@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
+from fastapi import HTTPException
+
 from app.models.post import Post
 from app.models.user import User
 from app.schemas.post_schema import UpdatePostSchema
@@ -66,6 +68,6 @@ class AsyncPostRepository():
     async def create_post_with_user(self, post: Post) -> Post:
         async with self.session_factory() as session:
             session.add(post)
-            raise
+            raise HTTPException(status_code=400, detail="Forced exception")
             await session.commit()
             return await session.refresh(post)

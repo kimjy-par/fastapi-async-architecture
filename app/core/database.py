@@ -1,37 +1,13 @@
 import asyncio
 
-from contextlib import AbstractContextManager, AbstractAsyncContextManager, contextmanager, asynccontextmanager
-from typing import AsyncGenerator ,Generator, Any
+from contextlib import AbstractAsyncContextManager, asynccontextmanager
+from typing import AsyncGenerator, Any
 
-from sqlalchemy import create_engine, orm
+from sqlalchemy import orm
 from sqlalchemy.ext.asyncio import create_async_engine, async_scoped_session, AsyncSession
-from sqlalchemy.orm import Session
 
 
 class Database:
-    def __init__(self, db_url: str) -> None:
-        self._engine = create_engine(db_url, echo=True)
-        self._session_factory = orm.scoped_session(
-            orm.sessionmaker(
-                autocommit=False,
-                autoflush=False,
-                bind=self._engine
-            )
-        )
-
-    @contextmanager
-    def session(self) -> Generator[Any, Any, AbstractContextManager[Session]]:
-        session: Session = self._session_factory()
-        try:
-            yield session
-        except:
-            session.rollback()
-            raise
-        finally:
-            session.close()
-
-
-class AsyncDatabase:
     def __init__(self, db_url: str) -> None:
         self._engine = create_async_engine(db_url, echo=True)
 
