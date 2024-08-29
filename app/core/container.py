@@ -1,5 +1,6 @@
 from dependency_injector import containers, providers
 
+from app.core.config import configs
 from app.core.database import Database
 from app.repositories.user_repository import UserRepository
 from app.repositories.post_repository import PostRepository
@@ -20,9 +21,7 @@ class Container(containers.DeclarativeContainer):
     )
 
     # secret에 담아야하는 내용이나, 예제 코드이므로 하드코딩하였음
-    db = providers.Singleton(
-        Database, db_url="mariadb+aiomysql://root:root@localhost:3306/mnc_onboarding"
-    )
+    db = providers.Singleton(Database, db_url=configs.DB_URL)
 
     user_repository = providers.Factory(
         UserRepository, session_factory=db.provided.session

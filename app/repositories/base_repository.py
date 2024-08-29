@@ -60,7 +60,9 @@ class BaseRepository:
             order = paging_options.get("order", ORDER)
             offset = (page - 1) * page_size
 
-            total_count = await session.execute(select(func.count()).select_from(query))
+            total_count = await session.execute(
+                select(func.count()).select_from(query.subquery())
+            )
             total_count = total_count.scalar()
 
             if eager:

@@ -1,5 +1,3 @@
-USE mnc_onboarding;
-
 INSERT INTO posts (user_id, title, content) VALUES
 (1, "mnc 온보딩", "온보딩중");
 
