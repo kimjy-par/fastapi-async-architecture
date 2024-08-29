@@ -10,13 +10,16 @@ class PostSchema(BaseInfoModel):
     class Config:
         from_attributes = True
 
+
 class PostListSchema(BaseModel):
     results: Optional[List[PostSchema]]
+
 
 class InsertPostSchema(BaseModel):
     user_id: int
     title: str
     content: str
+
 
 class UpdatePostSchema(BaseModel):
     title: Optional[str] = None

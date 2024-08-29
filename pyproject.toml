@@ -18,6 +18,7 @@ asyncmy = "^0.2.9"
 pymysql = "^1.1.1"
 aiomysql = "^0.2.0"
 greenlet = "^3.0.3"
+black = "^24.8.0"
 
 
 [build-system]

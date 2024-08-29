@@ -4,7 +4,11 @@ from contextlib import AbstractAsyncContextManager, asynccontextmanager
 from typing import AsyncGenerator, Any
 
 from sqlalchemy import orm
-from sqlalchemy.ext.asyncio import create_async_engine, async_scoped_session, AsyncSession
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_scoped_session,
+    AsyncSession,
+)
 
 
 class Database:
@@ -16,13 +20,15 @@ class Database:
                 autocommit=False,
                 autoflush=False,
                 bind=self._engine,
-                class_=AsyncSession
+                class_=AsyncSession,
             ),
-            scopefunc=asyncio.current_task
+            scopefunc=asyncio.current_task,
         )
 
     @asynccontextmanager
-    async def session(self) -> AsyncGenerator[Any, AbstractAsyncContextManager[AsyncSession]]:
+    async def session(
+        self,
+    ) -> AsyncGenerator[Any, AbstractAsyncContextManager[AsyncSession]]:
         async_session: AsyncSession = self._session_factory()
         try:
             yield async_session
