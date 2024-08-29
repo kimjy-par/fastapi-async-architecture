@@ -19,3 +19,4 @@ async def test_get_user_by_id():
         resp = await client.get("/v1/posts/5")
 
         print(resp.status_code)
+        
