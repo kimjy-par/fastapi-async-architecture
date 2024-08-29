@@ -4,7 +4,7 @@ from app.models.user import User
 from app.main import app
 from httpx import AsyncClient, ASGITransport
 
-@pytest.mark.asyncio(loop_scope="function")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_get_user_by_id():
     # user = User(
     #    username="test_user1",

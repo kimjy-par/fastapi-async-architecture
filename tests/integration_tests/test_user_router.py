@@ -5,7 +5,7 @@ from app.main import app
 from httpx import AsyncClient, ASGITransport
 
 
-@pytest.mark.asyncio(loop_scope="function")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_get_users():
     user = User(username="test_user", email="test_user@test.com", is_activate=True)
 
