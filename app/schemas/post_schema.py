@@ -1,26 +1,28 @@
 from typing import List, Optional
 from pydantic import BaseModel
-from app.schemas.base_schema import BaseInfoModel
+from app.schemas.base_schema import BaseInfoModel, BaseList
+from app.schemas.user_schema import UserResponse
 
 
-class PostSchema(BaseInfoModel):
-    title: str
-    content: str
-
-    class Config:
-        from_attributes = True
-
-
-class PostListSchema(BaseModel):
-    results: Optional[List[PostSchema]]
-
-
-class InsertPostSchema(BaseModel):
-    user_id: int
+class PostInfo(BaseModel):
     title: str
     content: str
 
 
-class UpdatePostSchema(BaseModel):
+class PostResponse(BaseInfoModel, PostInfo): ...
+
+
+class PostWithUserResponse(PostResponse):
+    user: UserResponse
+
+
+class PostListResponse(BaseList):
+    results: Optional[List[PostInfo]]
+
+
+class PostCreateRequest(PostInfo): ...
+
+
+class PostUpdateRequest(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None

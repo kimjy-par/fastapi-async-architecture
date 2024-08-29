@@ -1,5 +1,5 @@
 from typing import Optional, List
-from app.schemas.base_schema import BaseInfoModel, FindBase
+from app.schemas.base_schema import BaseInfoModel, BaseList
 from pydantic import BaseModel
 
 
@@ -12,7 +12,7 @@ class UserInfo(BaseModel):
 class UserResponse(BaseInfoModel, UserInfo): ...
 
 
-class UserListResponse(FindBase):
+class UserListResponse(BaseList):
     results: Optional[List[UserResponse]]
 
 

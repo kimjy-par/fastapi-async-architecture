@@ -1,9 +1,9 @@
 from contextlib import AbstractAsyncContextManager
-from typing import Callable, Type, TypeVar, Dict, List
+from typing import Callable, Type, TypeVar, Dict, List, Optional
 
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, class_mapper, RelationshipProperty
 from sqlalchemy.sql import text
 from sqlalchemy import func
 
@@ -33,8 +33,9 @@ class BaseRepository:
         async with self.session_factory() as session:
             query = select(self.model).filter(self.model.id == id)
             if eager:
-                for eager in getattr(self.model, "eagers", []):
-                    query = query.options(joinedload(getattr(self.model, eager)))
+                eager_attrs = await self._extract_relationship_attrs()
+                for attr in eager_attrs:
+                    query = query.options(joinedload(getattr(self.model, attr)))
 
             result = await session.execute(query)
             result = result.scalars().first()
@@ -61,6 +62,11 @@ class BaseRepository:
 
             total_count = await session.execute(select(func.count()).select_from(query))
             total_count = total_count.scalar()
+
+            if eager:
+                eager_attrs = await self._extract_relationship_attrs()
+                for attr in eager_attrs:
+                    query = query.options(joinedload(getattr(self.model, attr)))
 
             results = await session.execute(
                 query.offset(offset)
@@ -109,3 +115,10 @@ class BaseRepository:
                 raise NotFoundError
             await session.delete(model)
             await session.commit()
+
+    async def _extract_relationship_attrs(self) -> List[str]:
+        return [
+            prop.key
+            for prop in class_mapper(self.model).iterate_properties
+            if isinstance(prop, RelationshipProperty)
+        ]

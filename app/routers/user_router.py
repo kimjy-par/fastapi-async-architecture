@@ -9,25 +9,19 @@ from app.schemas.user_schema import (
     UserUpdateRequest,
     UserListResponse,
 )
-from app.schemas.post_schema import (
-    PostSchema,
-    PostListSchema,
-    UpdatePostSchema,
-    InsertPostSchema,
-)
 
-router = APIRouter(prefix="/v1", tags=["v1"])
+router = APIRouter(prefix="/v1/users", tags=["users"])
 
 
-@router.get(path="/users")
+@router.get(path="")
 @inject
 async def get_users(
     service: UserService = Depends(Provide[Container.user_service]),
 ) -> UserListResponse:
-    return await service.list(paging_options={"page_size": 5, "page": 2})
+    return await service.list()
 
 
-@router.get(path="/users/{user_id}", response_model=UserResponse)
+@router.get(path="/{user_id}", response_model=UserResponse)
 @inject
 async def get_user_by_id(
     user_id: int, service: UserService = Depends(Provide[Container.user_service])
@@ -35,7 +29,7 @@ async def get_user_by_id(
     return await service.read_by_id(user_id)
 
 
-@router.post(path="/users")
+@router.post(path="")
 @inject
 async def create_user(
     request: UserCreateRequest,
@@ -44,7 +38,7 @@ async def create_user(
     return await service.create(request)
 
 
-@router.patch(path="/users/{user_id}", response_model=UserResponse)
+@router.patch(path="/{user_id}", response_model=UserResponse)
 @inject
 async def update_user(
     user_id: int,
@@ -54,7 +48,7 @@ async def update_user(
     return await service.update_by_id(user_id, request)
 
 
-@router.delete(path="/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(path="/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 @inject
 async def delete_user(
     user_id: int, service: UserService = Depends(Provide[Container.user_service])

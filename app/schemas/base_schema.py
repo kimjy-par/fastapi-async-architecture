@@ -9,7 +9,7 @@ class BaseInfoModel(BaseModel):
     updated_at: datetime
 
 
-class FindBase(BaseModel):
+class BaseList(BaseModel):
     results: List[Any]
     page: Optional[int]
     page_size: Optional[int]

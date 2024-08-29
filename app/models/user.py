@@ -11,3 +11,6 @@ class User(BaseModel):
     username: Mapped[str] = mapped_column(String, nullable=False)
     email: Mapped[str] = mapped_column(String, unique=True)
     is_activate: Mapped[bool] = mapped_column(Boolean, nullable=False)
+
+    posts: Mapped[List["Post"]] = relationship("Post", back_populates="user")
+    tags: Mapped[List["Tag"]] = relationship("Tag", back_populates="user")

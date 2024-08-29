@@ -5,6 +5,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.core.container import Container
 from app.routers.user_router import router as user_router
+from app.routers.post_router import router as post_router
+from app.routers.tag_router import router as tag_router
 
 app = FastAPI(title="mnc_onboarding")
 
@@ -19,6 +21,8 @@ if "config.app.cors.allow_origin":
 
 container = Container()
 app.include_router(user_router)
+app.include_router(post_router)
+app.include_router(tag_router)
 
 
 @app.get("/")

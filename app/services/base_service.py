@@ -15,8 +15,8 @@ class BaseService:
     def __init__(self, repository: RepositoryProtocol) -> None:
         self._repository = repository
 
-    async def read_by_id(self, id: int) -> Any:
-        return await self._repository.read_by_id(id)
+    async def read_by_id(self, id: int, eager: bool = False) -> Any:
+        return await self._repository.read_by_id(id, eager)
 
     async def list(self, paging_options: Dict = {}, eager: bool = False):
         return await self._repository.list(paging_options, eager)

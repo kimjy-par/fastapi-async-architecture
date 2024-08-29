@@ -12,4 +12,6 @@ class Post(BaseModel):
     )
     title: Mapped[str] = mapped_column(String, nullable=False)
     content: Mapped[str] = mapped_column(String, nullable=False)
-    user: Mapped[User] = relationship(back_populates="posts")
+
+    user: Mapped["User"] = relationship("User", back_populates="posts")
+    tags: Mapped[list["Tag"]] = relationship("Tag", back_populates="post")
