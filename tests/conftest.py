@@ -11,6 +11,7 @@ if configs.ENV != "test":
     msg = f"ENV is not test, it is {os.getenv('ENV')}"
     pytest.exit(msg)
 
+
 async def setup():
     await delete_all_records()
     await insert_data()
@@ -18,6 +19,7 @@ async def setup():
 
 async def teardown():
     await delete_all_records()
+
 
 @pytest_asyncio.fixture
 async def session():

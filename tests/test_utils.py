@@ -79,7 +79,7 @@ async def insert_data():
         },
     ]
 
-    #await create_post(Post(**post_list[0]))
+    # await create_post(Post(**post_list[0]))
 
 
 async def create_user(user):
@@ -98,14 +98,24 @@ async def create_post(post):
         return post
 
 
+async def save_to_db(model):
+    async with AsyncSession(engine) as session:
+        session.add(model)
+        await session.commit()
+        await session.refresh(model)
+        return model
+
+
 async def delete_all_records():
     await delete_all_users()
     await delete_all_posts()
+
 
 async def delete_all_users():
     async with AsyncSession(engine) as session:
         await session.execute(text("DELETE FROM users"))
         await session.commit()
+
 
 async def delete_all_posts():
     async with AsyncSession(engine) as session:
