@@ -29,7 +29,7 @@ async def get_user_by_id(
     return await service.read_by_id(user_id)
 
 
-@router.post(path="")
+@router.post(path="", status_code=status.HTTP_201_CREATED)
 @inject
 async def create_user(
     request: UserCreateRequest,

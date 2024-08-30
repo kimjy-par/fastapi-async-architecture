@@ -100,7 +100,7 @@ class BaseRepository:
             model = results.scalars().first()
             if not model:
                 raise NotFoundError
-            attrs = schema.dict(exclude_none=True)
+            attrs = schema.model_dump(exclude_none=True)
             for attr in attrs.keys():
                 setattr(model, attr, attrs[attr])
             await session.commit()
