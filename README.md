@@ -8,3 +8,13 @@
 1. user
 2. post [user (1:n) post]
 3. tag [user (n:m) post]
+
+### Run
+```
+poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Test
+```
+ENV=test pytest
+```
