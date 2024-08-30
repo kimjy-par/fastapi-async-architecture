@@ -9,5 +9,4 @@ class UserRepository(BaseRepository):
     def __init__(
         self, session_factory: Callable[..., AbstractAsyncContextManager[AsyncSession]]
     ):
-        self.session_factory = session_factory
         super().__init__(session_factory, User)

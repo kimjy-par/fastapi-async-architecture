@@ -20,7 +20,6 @@ class Container(containers.DeclarativeContainer):
         ]
     )
 
-    # secret에 담아야하는 내용이나, 예제 코드이므로 하드코딩하였음
     db = providers.Singleton(Database, db_url=configs.DB_URL)
 
     user_repository = providers.Factory(
