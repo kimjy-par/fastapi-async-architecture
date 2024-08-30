@@ -1,12 +1,7 @@
-import asyncio
-import pytest
 import pytest_asyncio
-from contextlib import asynccontextmanager
-from starlette.testclient import TestClient
 from app.main import app
 from httpx import AsyncClient, ASGITransport
 from tests.test_utils import create_users, delete_all_records
-from pytest_asyncio import is_async_test
 
 
 async def setup():
