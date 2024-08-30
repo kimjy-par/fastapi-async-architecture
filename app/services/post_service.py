@@ -10,4 +10,4 @@ class PostService(BaseService):
         super().__init__(post_repository)
 
     async def create(self, user_id: int, schema: PostCreateRequest) -> Post:
-        return await self.post_repository.create_with_user_id(user_id, schema)
+        return await self.post_repository.create_with_user(user_id, schema)

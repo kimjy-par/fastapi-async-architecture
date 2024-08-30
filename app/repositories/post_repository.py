@@ -17,7 +17,7 @@ class PostRepository(BaseRepository):
         self.session_factory = session_factory
         super().__init__(session_factory, Post)
 
-    async def create_with_user_id(
+    async def create_with_user(
         self, user_id: int, schema: PostCreateRequest
     ) -> Post:
         async with self.session_factory() as session:

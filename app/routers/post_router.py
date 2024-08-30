@@ -22,7 +22,7 @@ async def get_posts(service: PostService = Depends(Provide[Container.post_servic
 
 @router.get(path="/{post_id}", response_model=PostWithUserResponse)
 @inject
-async def get_post(
+async def get_post_by_id(
     post_id: int, service: PostService = Depends(Provide[Container.post_service])
 ):
     return await service.read_by_id(post_id, eager=True)
@@ -38,7 +38,7 @@ async def update_post(
     return await service.update_by_id(post_id, request)
 
 
-@router.post(path="", response_model=PostResponse)
+@router.post(path="", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
 @inject
 async def create_post(
     user_id: int,
