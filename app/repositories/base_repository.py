@@ -9,15 +9,12 @@ from sqlalchemy import func
 
 from pydantic import BaseModel
 
+from app.core.config import configs
 from app.core.exceptions import NotFoundError
 from app.models.base_model import BaseModel
 
 
 T = TypeVar("T", bound=BaseModel)
-PAGE = 1
-PAGE_SIZE = 20
-ORDER = "asc"
-ORDER_COLUMN = "id"
 
 
 class BaseRepository:
@@ -54,10 +51,10 @@ class BaseRepository:
         self, query, paging_options: Dict = {}, eager: bool = False
     ) -> List[T]:
         async with self.session_factory() as session:
-            page = paging_options.get("page", PAGE)
-            page_size = paging_options.get("page_size", PAGE_SIZE)
-            order_column = paging_options.get("order_column", ORDER_COLUMN)
-            order = paging_options.get("order", ORDER)
+            page = paging_options.get("page", configs.PAGE)
+            page_size = paging_options.get("page_size", configs.PAGE_SIZE)
+            order_column = paging_options.get("order_column", configs.ORDER_COLUMN)
+            order = paging_options.get("order", configs.ORDER)
             offset = (page - 1) * page_size
 
             total_count = await session.execute(
