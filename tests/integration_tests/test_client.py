@@ -12,5 +12,5 @@ async def test_client():
         transport=ASGITransport(app=app), base_url="http://localhost"
     ) as client:
         print(await client.get("/v1/users"))
-    #assert response.status_code == 200
-    #assert response.json() == {"health": True}
+    # assert response.status_code == 200
+    # assert response.json() == {"health": True}
