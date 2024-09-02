@@ -4,7 +4,9 @@ import pytest_asyncio
 from app.main import app
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy import orm
 from app.core.config import configs
+from app.core.database import Database
 from tests.test_utils import insert_data, delete_all_records
 
 if configs.ENV != "test":
@@ -38,3 +40,8 @@ async def client():
         await setup()
         yield client
         await teardown()
+
+@pytest_asyncio.fixture
+async def database():
+    database = Database(configs.DB_URL)
+    yield database
