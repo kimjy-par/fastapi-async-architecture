@@ -18,3 +18,5 @@ poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 ENV=test pytest --cov=app 
 ```
+## ToDo
+1. To apply migration tool such as alembic
