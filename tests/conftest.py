@@ -40,6 +40,7 @@ async def client():
         yield client
         await teardown()
 
+
 @pytest_asyncio.fixture(loop_scope="session")
 async def database():
     database = Database(configs.DB_URL)

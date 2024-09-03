@@ -15,9 +15,7 @@ class PostRepository(BaseRepository):
     ):
         super().__init__(session_factory, Post)
 
-    async def create_with_user(
-        self, user_id: int, schema: PostCreateRequest
-    ) -> Post:
+    async def create_with_user(self, user_id: int, schema: PostCreateRequest) -> Post:
         async with self.session_factory() as session:
             user = await session.execute(select(User).where(User.id == user_id))
             user = user.scalars().first()
