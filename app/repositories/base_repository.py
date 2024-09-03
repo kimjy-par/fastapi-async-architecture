@@ -72,7 +72,7 @@ class BaseRepository:
                 .limit(page_size)
                 .order_by(text(f"{order_column} {order}"))
             )
-            results = results.scalars()
+            results = results.scalars().all()
 
             return {
                 "results": results,

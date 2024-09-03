@@ -23,16 +23,15 @@ async def teardown():
     await delete_all_records()
 
 
-@pytest_asyncio.fixture
+@pytest_asyncio.fixture(loop_scope="session")
 async def session():
     engine = create_async_engine(configs.DB_URL)
     async with AsyncSession(engine) as session:
         yield session
         await session.rollback()
-        await session.close()
 
 
-@pytest_asyncio.fixture
+@pytest_asyncio.fixture(loop_scope="session")
 async def client():
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://localhost"
@@ -41,7 +40,8 @@ async def client():
         yield client
         await teardown()
 
-@pytest_asyncio.fixture
+@pytest_asyncio.fixture(loop_scope="session")
 async def database():
     database = Database(configs.DB_URL)
     yield database
+    await teardown()
