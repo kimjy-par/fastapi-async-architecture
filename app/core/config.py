@@ -6,9 +6,9 @@ class Configs(BaseSettings):
     ENV: str = os.getenv("ENV", "dev")
 
     if ENV == "prod":
-        pass
+        DB_URL: str = os.getenv("DB_URL")
     elif ENV == "staging":
-        pass
+        DB_URL: str = os.getenv("DB_URL")
     elif ENV == "test":
         DB_URL: str = "mariadb+aiomysql://root:root@localhost:3306/test"
     else:
